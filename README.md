@@ -129,8 +129,8 @@ Each feature follows Clean Architecture:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/readwise-ai-assistant.git
-cd readwise-ai-assistant
+git clone https://github.com/ravi07777/readwise.git
+cd readwise
 ```
 
 2. Install dependencies:
@@ -147,6 +147,24 @@ flutter pub run build_runner build --delete-conflicting-outputs
 ```bash
 flutter run
 ```
+
+### Build APK
+
+```bash
+# Debug APK
+flutter build apk --debug
+
+# Release APK
+flutter build apk --release
+
+# Release App Bundle (Play Store)
+flutter build appbundle --release
+```
+
+APK output:
+- Debug: `build/app/outputs/flutter-apk/app-debug.apk`
+- Release: `build/app/outputs/flutter-apk/app-release.apk`
+- App Bundle: `build/app/outputs/bundle/release/app-release.aab`
 
 ### Configuration
 
