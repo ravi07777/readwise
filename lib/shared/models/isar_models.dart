@@ -228,7 +228,7 @@ class Idiom {
   });
 }
 
-@collection
+@Collection(accessor: "summaries")
 class TextSummary {
   Id id = Isar.autoIncrement;
   late String title;

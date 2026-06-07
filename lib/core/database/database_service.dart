@@ -34,7 +34,7 @@ class DatabaseService {
         VocabularyWordSchema,
         PhraseSchema,
         IdiomSchema,
-        SummarySchema,
+        TextSummarySchema,
         BookmarkSchema,
         ReadingHighlightSchema,
       ],
@@ -65,7 +65,7 @@ class DatabaseService {
   Future<int> saveNote(Note note) => _isar.writeTxn(() => _isar.notes.put(note));
   Future<Note?> getNote(int id) => _isar.notes.get(id);
   Future<List<Note>> getAllNotes() => _isar.notes.where().findAll();
-  Future<List<Note>> getNotesBySession(int sessionId) =>
+  Future<List<Note>> getNotesBySession(String sessionId) =>
       _isar.notes.where().filter().sessionIdEqualTo(sessionId).findAll();
   Future<void> deleteNote(int id) => _isar.writeTxn(() => _isar.notes.delete(id));
 
@@ -116,7 +116,7 @@ class DatabaseService {
   Future<int> saveMessage(Message message) =>
       _isar.writeTxn(() => _isar.messages.put(message));
   Future<List<Message>> getMessagesForConversation(int conversationId) =>
-      _isar.messages.where().filter().conversationIdEqualTo(conversationId).sortByCreatedAtAsc().findAll();
+      _isar.messages.where().sortByCreatedAtAsc().filter().conversationIdEqualTo(conversationId).findAll();
   Future<void> deleteMessagesForConversation(int conversationId) =>
       _isar.writeTxn(() => _isar.messages.where().filter().conversationIdEqualTo(conversationId).deleteAll());
 
@@ -152,7 +152,7 @@ class DatabaseService {
       _isar.writeTxn(() => _isar.summaries.put(summary));
   Future<TextSummary?> getSummary(int id) => _isar.summaries.get(id);
   Future<List<TextSummary>> getAllSummaries() => _isar.summaries.where().findAll();
-  Future<List<TextSummary>> getSummariesBySession(int sessionId) =>
+  Future<List<TextSummary>> getSummariesBySession(String sessionId) =>
       _isar.summaries.where().filter().sessionIdEqualTo(sessionId).findAll();
   Future<void> deleteSummary(int id) => _isar.writeTxn(() => _isar.summaries.delete(id));
 
