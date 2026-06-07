@@ -115,8 +115,11 @@ class DatabaseService {
   // Message operations
   Future<int> saveMessage(Message message) =>
       _isar.writeTxn(() => _isar.messages.put(message));
-  Future<List<Message>> getMessagesForConversation(int conversationId) =>
-      _isar.messages.where().sortByCreatedAtAsc().filter().conversationIdEqualTo(conversationId).findAll();
+  Future<List<Message>> getMessagesForConversation(int conversationId) async {
+    final messages = await _isar.messages.filter().conversationIdEqualTo(conversationId).findAll();
+    messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    return messages;
+  }
   Future<void> deleteMessagesForConversation(int conversationId) =>
       _isar.writeTxn(() => _isar.messages.where().filter().conversationIdEqualTo(conversationId).deleteAll());
 
