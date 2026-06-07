@@ -13,8 +13,8 @@ class Prompt {
   late bool isDefault;
   late bool isBuiltIn;
   late int sortOrder;
-  late DateTime createdAt;
-  late DateTime updatedAt;
+  DateTime createdAt = DateTime.now();
+  DateTime updatedAt = DateTime.now();
 
   Prompt({
     this.title = '',
@@ -25,10 +25,7 @@ class Prompt {
     this.isDefault = false,
     this.isBuiltIn = false,
     this.sortOrder = 0,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  })  : createdAt = createdAt ?? DateTime.now(),
-        updatedAt = updatedAt ?? DateTime.now();
+  });
 }
 
 @collection
@@ -40,8 +37,8 @@ class Note {
   late String? sessionId;
   late String? conversationId;
   late List<String> tags;
-  late DateTime createdAt;
-  late DateTime updatedAt;
+  DateTime createdAt = DateTime.now();
+  DateTime updatedAt = DateTime.now();
 
   Note({
     this.title = '',
@@ -50,10 +47,7 @@ class Note {
     this.sessionId,
     this.conversationId,
     this.tags = const [],
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  })  : createdAt = createdAt ?? DateTime.now(),
-        updatedAt = updatedAt ?? DateTime.now();
+  });
 }
 
 @collection
@@ -69,7 +63,7 @@ class Flashcard {
   late int reviewCount;
   late DateTime? lastReviewedDate;
   late DateTime? nextReviewDate;
-  late DateTime createdAt;
+  DateTime createdAt = DateTime.now();
 
   Flashcard({
     this.question = '',
@@ -81,10 +75,7 @@ class Flashcard {
     this.interval = 0,
     this.reviewCount = 0,
     this.lastReviewedDate,
-    DateTime? nextReviewDate,
-    DateTime? createdAt,
-  })  : nextReviewDate = nextReviewDate ?? DateTime.now(),
-        createdAt = createdAt ?? DateTime.now();
+  });
 }
 
 @collection
@@ -99,7 +90,7 @@ class ReadingSession {
   late int totalCharacters;
   late int totalPages;
   late int currentPage;
-  late DateTime startedAt;
+  DateTime startedAt = DateTime.now();
   late DateTime? endedAt;
   late bool isActive;
 
@@ -113,10 +104,9 @@ class ReadingSession {
     this.totalCharacters = 0,
     this.totalPages = 0,
     this.currentPage = 0,
-    DateTime? startedAt,
     this.endedAt,
     this.isActive = true,
-  }) : startedAt = startedAt ?? DateTime.now();
+  });
 }
 
 @collection
@@ -127,8 +117,8 @@ class Conversation {
   late String? sessionId;
   late String? modelUsed;
   late int messageCount;
-  late DateTime createdAt;
-  late DateTime updatedAt;
+  DateTime createdAt = DateTime.now();
+  DateTime updatedAt = DateTime.now();
 
   Conversation({
     this.title = 'New Conversation',
@@ -136,10 +126,7 @@ class Conversation {
     this.sessionId,
     this.modelUsed,
     this.messageCount = 0,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  })  : createdAt = createdAt ?? DateTime.now(),
-        updatedAt = updatedAt ?? DateTime.now();
+  });
 }
 
 @collection
@@ -151,7 +138,7 @@ class Message {
   late String? actionType;
   late String? providerUsed;
   late int tokensUsed;
-  late DateTime createdAt;
+  DateTime createdAt = DateTime.now();
 
   Message({
     this.conversationId = 0,
@@ -160,8 +147,7 @@ class Message {
     this.actionType,
     this.providerUsed,
     this.tokensUsed = 0,
-    DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now();
+  });
 }
 
 @collection
@@ -178,7 +164,7 @@ class VocabularyWord {
   late int interval;
   late DateTime? nextReviewDate;
   late DateTime? lastSeenDate;
-  late DateTime createdAt;
+  DateTime createdAt = DateTime.now();
 
   VocabularyWord({
     this.word = '',
@@ -190,11 +176,8 @@ class VocabularyWord {
     this.isKnown = false,
     this.reviewCount = 0,
     this.interval = 0,
-    DateTime? nextReviewDate,
     this.lastSeenDate,
-    DateTime? createdAt,
-  })  : nextReviewDate = nextReviewDate ?? DateTime.now(),
-        createdAt = createdAt ?? DateTime.now();
+  });
 }
 
 @collection
@@ -207,7 +190,7 @@ class Phrase {
   late String? sessionId;
   late String? language;
   late bool isSaved;
-  late DateTime createdAt;
+  DateTime createdAt = DateTime.now();
 
   Phrase({
     this.phrase = '',
@@ -217,8 +200,7 @@ class Phrase {
     this.sessionId,
     this.language = 'en',
     this.isSaved = false,
-    DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now();
+  });
 }
 
 @collection
@@ -232,7 +214,7 @@ class Idiom {
   late String? sourceText;
   late String? sessionId;
   late bool isSaved;
-  late DateTime createdAt;
+  DateTime createdAt = DateTime.now();
 
   Idiom({
     this.idiom = '',
@@ -243,8 +225,7 @@ class Idiom {
     this.sourceText,
     this.sessionId,
     this.isSaved = false,
-    DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now();
+  });
 }
 
 @collection
@@ -256,7 +237,7 @@ class Summary {
   late String? sessionId;
   late String? type;
   late int characterCount;
-  late DateTime createdAt;
+  DateTime createdAt = DateTime.now();
 
   Summary({
     this.title = '',
@@ -265,8 +246,7 @@ class Summary {
     this.sessionId,
     this.type = 'page',
     this.characterCount = 0,
-    DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now();
+  });
 }
 
 @collection
@@ -277,7 +257,7 @@ class Bookmark {
   late String? sourceText;
   late String? sessionId;
   late String? pageReference;
-  late DateTime createdAt;
+  DateTime createdAt = DateTime.now();
 
   Bookmark({
     this.title = '',
@@ -285,8 +265,7 @@ class Bookmark {
     this.sourceText,
     this.sessionId,
     this.pageReference,
-    DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now();
+  });
 }
 
 @collection
@@ -297,7 +276,7 @@ class ReadingHighlight {
   late String? color;
   late String? sessionId;
   late String? source;
-  late DateTime createdAt;
+  DateTime createdAt = DateTime.now();
 
   ReadingHighlight({
     this.text = '',
@@ -305,6 +284,5 @@ class ReadingHighlight {
     this.color = 'yellow',
     this.sessionId,
     this.source,
-    DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now();
+  });
 }

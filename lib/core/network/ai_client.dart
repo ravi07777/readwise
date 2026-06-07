@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../services/secure_storage_service.dart';
- '../constants/api_constants.dart';
+import '../constants/api_constants.dart';
 
 enum AIProvider {
   openAI,
