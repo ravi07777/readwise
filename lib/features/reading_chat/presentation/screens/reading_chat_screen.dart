@@ -308,7 +308,7 @@ Keep responses concise and focused on the text being read.
             title: 'AI Summary',
             content: response,
             sourceText: text,
-          }));
+          ));
           break;
       }
     } catch (e) {

@@ -770,7 +770,14 @@ class AIClient {
         } else if (statusCode == 500) {
           return 'AI provider server error. Please try again later.';
         }
-        return 'Error $statusCode: ${body is Map ? body['error']?['message'] ?? body.toString() : body.toString()}';
+        if (body is Map && body['error'] != null) {
+          final error = body['error'];
+          if (error is Map && error['message'] != null) {
+            return 'Error $statusCode: ${error['message']}';
+          }
+          return 'Error $statusCode: $body';
+        }
+        return 'Error $statusCode: $body';
       case DioExceptionType.cancel:
         return 'Request was cancelled.';
       case DioExceptionType.connectionError:
