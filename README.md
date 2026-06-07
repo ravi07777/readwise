@@ -176,6 +176,4 @@ flutter run
 - [Prompt System Guide](docs/prompt_system_guide.md)
 - [GitHub Actions Guide](docs/github_actions_guide.md)
 
-## License
 
-MIT License - see LICENSE file for details
