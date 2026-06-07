@@ -30,6 +30,10 @@
         android:usesCleartextTraffic="false"
         tools:targetApi="34">
 
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+
         <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
