@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ReadWise AI Assistant</string>
+    <string name="accessibility_service_description">ReadWise AI Assistant uses accessibility services to read screen content and help you understand difficult text while reading.</string>
+    <string name="overlay_channel_name">ReadWise Overlay</string>
+    <string name="overlay_channel_description">Shows floating assistant button for quick AI actions</string>
+    <string name="media_projection_channel_name">Screen Capture</string>
+    <string name="media_projection_channel_description">Used for screen capture and OCR functionality</string>
+    <string name="clipboard_channel_name">Clipboard Monitor</string>
+    <string name="clipboard_channel_description">Monitors clipboard for text detection</string>
+</resources>

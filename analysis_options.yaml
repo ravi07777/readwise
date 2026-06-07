@@ -1,0 +1,37 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    - avoid_print
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - prefer_const_literals_to_create_immutables
+    - avoid_redundant_argument_values
+    - prefer_final_locals
+    - prefer_final_in_for_each
+    - sort_constructors_first
+    - sort_unnamed_constructors_first
+    - use_key_in_widget_constructors
+    - avoid_unnecessary_containers
+    - prefer_single_quotes
+    - require_trailing_commas
+    - always_declare_return_types
+    - annotate_overrides
+    - avoid_init_to_null
+    - empty_constructor_bodies
+    - prefer_expression_function_bodies
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.config.dart"
+    - "build/**"
+  errors:
+    invalid_annotation_target: ignore
+    missing_return: error
+    dead_code: warning
+  language:
+    strict-raw-types: true
+    strict-casts: true
+    strict-inference: true
