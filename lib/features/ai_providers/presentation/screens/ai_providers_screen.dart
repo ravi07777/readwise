@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../../core/constants/api_constants.dart';
 import '../../../../core/network/ai_client.dart';
 import '../../../../core/services/secure_storage_service.dart';
@@ -171,9 +172,7 @@ class _AIProvidersScreenState extends ConsumerState<AIProvidersScreen> {
 
   Widget _buildProviderCard(AIProvider provider, AIProviderConfig config, ColorScheme colorScheme) {
     final isSelected = config.provider == provider;
-    final hasKey = ref.watch(aiProviderConfigProvider).maybeWhen(
-          orElse: () => false,
-        );
+    final hasKey = false;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 8),

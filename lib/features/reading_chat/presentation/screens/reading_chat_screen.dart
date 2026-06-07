@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/services/accessibility_service.dart';
 import '../../../../core/services/platform_channel_service.dart';
@@ -11,11 +12,15 @@ import '../../../../shared/models/isar_models.dart';
 import '../../../../core/database/database_service.dart';
 import '../../../overlay_response/presentation/widgets/overlay_response_card.dart';
 
+final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
+  return const FlutterSecureStorage();
+});
+
 final chatProvider = StateNotifierProvider<ChatNotifier, ChatState>((ref) {
   return ChatNotifier(
     ref.watch(aiClientProvider),
     ref.watch(databaseServiceProvider),
-    ref.watch(secureStorageServiceProvider),
+    ref.watch(secureStorageProvider),
   );
 });
 
@@ -57,7 +62,7 @@ class ChatMessage {
   final DateTime timestamp;
   final String? actionType;
 
-  const ChatMessage({
+  ChatMessage({
     required this.role,
     required this.content,
     DateTime? timestamp,
@@ -68,7 +73,7 @@ class ChatMessage {
 class ChatNotifier extends StateNotifier<ChatState> {
   final AIClient _aiClient;
   final DatabaseService _db;
-  final SecureStorageService _storage;
+  final FlutterSecureStorage _storage;
 
   ChatNotifier(this._aiClient, this._db, this._storage) : super(const ChatState());
 
@@ -186,7 +191,7 @@ Please answer based on the reading context above.
     state = state.copyWith(
       messages: [
         ...state.messages,
-        const ChatMessage(role: 'assistant', content: ''),
+        ChatMessage(role: 'assistant', content: ''),
       ],
     );
 
@@ -224,7 +229,7 @@ Please answer based on the reading context above.
   }
 
   Future<String> _getSystemPrompt() async {
-    final defaultPrompt = await _storage.getString('default_system_prompt');
+    final defaultPrompt = await _storage.read(key: 'default_system_prompt');
     return defaultPrompt ?? '''
 You are ReadWise AI Assistant, a helpful reading companion.
 You help users understand difficult text by providing clear explanations,
@@ -304,7 +309,7 @@ Keep responses concise and focused on the text being read.
           // Parse flashcards from response and save
           break;
         case 'summarize':
-          await _db.saveSummary(Summary(
+          await _db.saveSummary(TextSummary(
             title: 'AI Summary',
             content: response,
             sourceText: text,

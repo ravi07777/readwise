@@ -152,7 +152,7 @@ class ReadingActionsNotifier extends StateNotifier<ReadingActionsState> {
           sourceText: text,
         ));
       } else if (action == 'summarize' || action.startsWith('summarize')) {
-        await _db.saveSummary(Summary(
+        await _db.saveSummary(TextSummary(
           title: 'Summary - ${action.replaceFirst('summarize', '')}',
           content: response,
           sourceText: text,

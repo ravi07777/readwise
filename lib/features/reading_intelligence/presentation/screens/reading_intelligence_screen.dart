@@ -63,7 +63,7 @@ class _ReadingIntelligenceScreenState extends ConsumerState<ReadingIntelligenceS
         const SizedBox(width: 8),
         Expanded(child: _buildStatCard('Phrases', '12', Icons.format_quote, colorScheme)),
         const SizedBox(width: 8),
-        Expanded(child: _buildStatCard('Flashcards', '8', Icons.flash_on, Colors.amber)),
+        Expanded(child: _buildStatCard('Flashcards', '8', Icons.flash_on, colorScheme)),
       ],
     );
   }

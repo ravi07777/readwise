@@ -287,7 +287,6 @@ class _PromptLibraryScreenState extends ConsumerState<PromptLibraryScreen> {
                     onSelected: (selected) {
                       setState(() => _selectedCategory = category);
                     },
-                    compact: true,
                   ),
                 );
               }).toList(),
@@ -315,7 +314,7 @@ class _PromptLibraryScreenState extends ConsumerState<PromptLibraryScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.prompt_equality_outlined, size: 64,
+                        Icon(Icons.compare_outlined, size: 64,
                             color: colorScheme.onSurfaceVariant.withOpacity(0.5)),
                         const SizedBox(height: 16),
                         Text('No prompts found',
@@ -421,7 +420,7 @@ class _PromptCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
-                  prompt.isBuiltIn ? Icons.auto_awesome : Icons.prompt_equality,
+                  prompt.isBuiltIn ? Icons.auto_awesome : Icons.compare,
                   size: 20,
                   color: prompt.isBuiltIn
                       ? colorScheme.onSecondaryContainer

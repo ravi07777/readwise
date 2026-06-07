@@ -250,7 +250,7 @@ class _OverlayResponseCardState extends ConsumerState<OverlayResponseCard>
       case 'quiz':
         return Icons.quiz_outlined;
       case 'define':
-        return Icons.dictionary_outlined;
+        return Icons.book_outlined;
       case 'idiom':
         return Icons.format_quote_outlined;
       default:

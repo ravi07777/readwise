@@ -229,7 +229,7 @@ class Idiom {
 }
 
 @collection
-class Summary {
+class TextSummary {
   Id id = Isar.autoIncrement;
   late String title;
   late String content;
@@ -239,7 +239,7 @@ class Summary {
   late int characterCount;
   DateTime createdAt = DateTime.now();
 
-  Summary({
+  TextSummary({
     this.title = '',
     this.content = '',
     this.sourceText,

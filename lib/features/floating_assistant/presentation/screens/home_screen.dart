@@ -31,8 +31,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       label: 'Intelligence',
     ),
     NavigationDestination(
-      icon: Icon(Icons.prompt_equality_outlined),
-      selectedIcon: Icon(Icons.prompt_equality),
+      icon: Icon(Icons.compare_outlined),
+      selectedIcon: Icon(Icons.compare),
       label: 'Prompts',
     ),
     NavigationDestination(

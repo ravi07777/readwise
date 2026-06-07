@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' hide Summary;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -19,7 +19,7 @@ class DatabaseService {
 
     final dir = await getApplicationDocumentsDirectory();
     final isarDir = Directory('${dir.path}/readwise_db');
-    if (!isarDir.exists()) {
+    if (!isarDir.existsSync()) {
       await isarDir.create(recursive: true);
     }
 
@@ -53,11 +53,11 @@ class DatabaseService {
   Future<int> savePrompt(Prompt prompt) => _isar.writeTxn(() => _isar.prompts.put(prompt));
   Future<Prompt?> getPrompt(int id) => _isar.prompts.get(id);
   Future<List<Prompt>> getAllPrompts() => _isar.prompts.where().findAll();
-  Future<List<Prompt>> getFavoritePrompts() => _isar.prompts.where().isFavoriteEqualTo(true).findAll();
+  Future<List<Prompt>> getFavoritePrompts() => _isar.prompts.where().filter().isFavoriteEqualTo(true).findAll();
   Future<List<Prompt>> getPromptsByCategory(String category) =>
-      _isar.prompts.where().categoryEqualTo(category).findAll();
+      _isar.prompts.where().filter().categoryEqualTo(category).findAll();
   Future<List<Prompt>> getPromptsByTag(String tag) =>
-      _isar.prompts.where().tagsElementEqualTo(tag).findAll();
+      _isar.prompts.where().filter().tagsElementEqualTo(tag).findAll();
   Future<void> deletePrompt(int id) => _isar.writeTxn(() => _isar.prompts.delete(id));
   Future<void> deletePrompts(List<int> ids) => _isar.writeTxn(() => _isar.prompts.deleteAll(ids));
 
@@ -66,7 +66,7 @@ class DatabaseService {
   Future<Note?> getNote(int id) => _isar.notes.get(id);
   Future<List<Note>> getAllNotes() => _isar.notes.where().findAll();
   Future<List<Note>> getNotesBySession(int sessionId) =>
-      _isar.notes.where().sessionIdEqualTo(sessionId).findAll();
+      _isar.notes.where().filter().sessionIdEqualTo(sessionId).findAll();
   Future<void> deleteNote(int id) => _isar.writeTxn(() => _isar.notes.delete(id));
 
   // Flashcard operations
@@ -75,9 +75,9 @@ class DatabaseService {
   Future<Flashcard?> getFlashcard(int id) => _isar.flashcards.get(id);
   Future<List<Flashcard>> getAllFlashcards() => _isar.flashcards.where().findAll();
   Future<List<Flashcard>> getFlashcardsForReview() =>
-      _isar.flashcards.where().nextReviewDateLessThan(DateTime.now()).findAll();
+      _isar.flashcards.where().filter().nextReviewDateLessThan(DateTime.now()).findAll();
   Future<List<Flashcard>> getFlashcardsByDifficulty(int difficulty) =>
-      _isar.flashcards.where().difficultyEqualTo(difficulty).findAll();
+      _isar.flashcards.where().filter().difficultyEqualTo(difficulty).findAll();
   Future<void> deleteFlashcard(int id) => _isar.writeTxn(() => _isar.flashcards.delete(id));
   Future<void> updateFlashcardReview(int id, int difficulty, int interval, DateTime nextReview) =>
       _isar.writeTxn(() async {
@@ -116,21 +116,21 @@ class DatabaseService {
   Future<int> saveMessage(Message message) =>
       _isar.writeTxn(() => _isar.messages.put(message));
   Future<List<Message>> getMessagesForConversation(int conversationId) =>
-      _isar.messages.where().conversationIdEqualTo(conversationId).sortByCreatedAtAsc().findAll();
+      _isar.messages.where().filter().conversationIdEqualTo(conversationId).sortByCreatedAtAsc().findAll();
   Future<void> deleteMessagesForConversation(int conversationId) =>
-      _isar.writeTxn(() => _isar.messages.where().conversationIdEqualTo(conversationId).deleteAll());
+      _isar.writeTxn(() => _isar.messages.where().filter().conversationIdEqualTo(conversationId).deleteAll());
 
   // Vocabulary operations
   Future<int> saveVocabularyWord(VocabularyWord word) =>
       _isar.writeTxn(() => _isar.vocabularyWords.put(word));
   Future<VocabularyWord?> getVocabularyWord(int id) => _isar.vocabularyWords.get(id);
   Future<VocabularyWord?> getVocabularyWordByText(String word) =>
-      _isar.vocabularyWords.where().wordEqualTo(word).findFirst();
+      _isar.vocabularyWords.where().filter().wordEqualTo(word).findFirst();
   Future<List<VocabularyWord>> getAllVocabularyWords() => _isar.vocabularyWords.where().findAll();
   Future<List<VocabularyWord>> getUnknownWords() =>
-      _isar.vocabularyWords.where().isKnownEqualTo(false).findAll();
+      _isar.vocabularyWords.where().filter().isKnownEqualTo(false).findAll();
   Future<List<VocabularyWord>> getWordsForReview() =>
-      _isar.vocabularyWords.where().nextReviewDateLessThan(DateTime.now()).findAll();
+      _isar.vocabularyWords.where().filter().nextReviewDateLessThan(DateTime.now()).findAll();
   Future<void> deleteVocabularyWord(int id) =>
       _isar.writeTxn(() => _isar.vocabularyWords.delete(id));
 
@@ -148,12 +148,12 @@ class DatabaseService {
   Future<void> deleteIdiom(int id) => _isar.writeTxn(() => _isar.idioms.delete(id));
 
   // Summary operations
-  Future<int> saveSummary(Summary summary) =>
+  Future<int> saveSummary(TextSummary summary) =>
       _isar.writeTxn(() => _isar.summaries.put(summary));
-  Future<Summary?> getSummary(int id) => _isar.summaries.get(id);
-  Future<List<Summary>> getAllSummaries() => _isar.summaries.where().findAll();
-  Future<List<Summary>> getSummariesBySession(int sessionId) =>
-      _isar.summaries.where().sessionIdEqualTo(sessionId).findAll();
+  Future<TextSummary?> getSummary(int id) => _isar.summaries.get(id);
+  Future<List<TextSummary>> getAllSummaries() => _isar.summaries.where().findAll();
+  Future<List<TextSummary>> getSummariesBySession(int sessionId) =>
+      _isar.summaries.where().filter().sessionIdEqualTo(sessionId).findAll();
   Future<void> deleteSummary(int id) => _isar.writeTxn(() => _isar.summaries.delete(id));
 
   // Bookmark operations
