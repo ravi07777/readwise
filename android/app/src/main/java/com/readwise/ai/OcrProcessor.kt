@@ -8,12 +8,12 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.google.mlkit.vision.text.chinese.ChineseTextRecognizerOptions
-import com.google.mlkit.vision.text.devanagari.DevnagariTextRecognizerOptions
 import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions
 import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+
 
 class OcrProcessor {
 
@@ -27,10 +27,6 @@ class OcrProcessor {
 
     private val chineseRecognizer: TextRecognizer by lazy {
         TextRecognition.getClient(ChineseTextRecognizerOptions.Builder().build())
-    }
-
-    private val devanagariRecognizer: TextRecognizer by lazy {
-        TextRecognition.getClient(DevnagariTextRecognizerOptions.Builder().build())
     }
 
     private val japaneseRecognizer: TextRecognizer by lazy {
@@ -65,11 +61,9 @@ class OcrProcessor {
 
             val result = processWithRecognizer(latinRecognizer, inputImage)
 
-            // Try other recognizers if Latin result is too short
             val finalResult = if (result.text.length < 10) {
                 val candidates = listOf(
                     chineseRecognizer to "Chinese",
-                    devanagariRecognizer to "Devanagari",
                     japaneseRecognizer to "Japanese",
                     koreanRecognizer to "Korean"
                 )
@@ -90,12 +84,12 @@ class OcrProcessor {
                 result
             }
 
-            val confidence = if (finalResult.text.isNotEmpty()) {
-                val totalBlocks = finalResult.textBlocks.size
-                val highConfBlocks = finalResult.textBlocks.count { it.confidence >= 0.8f }
-                if (totalBlocks > 0) highConfBlocks.toFloat() / totalBlocks else 0.5f
+            val lineConfidences = finalResult.textBlocks.flatMap { it.lines }.map { it.confidence }
+            val confidence = if (lineConfidences.isNotEmpty()) {
+                val highConfLines = lineConfidences.count { it >= 0.8f }
+                highConfLines.toFloat() / lineConfidences.size
             } else {
-                0f
+                0.5f
             }
 
             OcrResult.Success(text = finalResult.text, confidence = confidence)
@@ -117,7 +111,7 @@ class OcrProcessor {
             }
             .addOnFailureListener { e ->
                 if (cont.isActive) {
-                    cont.resumeWithException(e)
+                    cont.resumeWith(Result.failure(e))
                 }
             }
     }

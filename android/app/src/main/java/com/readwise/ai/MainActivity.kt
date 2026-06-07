@@ -30,20 +30,20 @@ class MainActivity : FlutterActivity() {
         setupPlatformChannels()
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         handleSharedIntent(intent)
     }
 
-    private fun handleSharedIntent(intent: Intent?) {
-        if (intent?.action == Intent.ACTION_SEND && intent.type == "text/plain") {
+    private fun handleSharedIntent(intent: Intent) {
+        if (intent.action == Intent.ACTION_SEND && intent.type == "text/plain") {
             sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
         }
     }
 
     private fun setupPlatformChannels() {
         // Overlay channel
-        MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL_OVERLAY)
+        MethodChannel(flutterEngine!!.dartExecutor.binaryMessenger, CHANNEL_OVERLAY)
             .setMethodCallHandler { call, result ->
                 when (call.method) {
                     "startOverlay" -> {
@@ -92,7 +92,7 @@ class MainActivity : FlutterActivity() {
             }
 
         // Accessibility channel
-        MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL_ACCESSIBILITY)
+        MethodChannel(flutterEngine!!.dartExecutor.binaryMessenger, CHANNEL_ACCESSIBILITY)
             .setMethodCallHandler { call, result ->
                 when (call.method) {
                     "isAccessibilityEnabled" -> {
@@ -113,7 +113,7 @@ class MainActivity : FlutterActivity() {
             }
 
         // Share channel
-        MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL_SHARE)
+        MethodChannel(flutterEngine!!.dartExecutor.binaryMessenger, CHANNEL_SHARE)
             .setMethodCallHandler { call, result ->
                 when (call.method) {
                     "getSharedText" -> {
@@ -125,7 +125,7 @@ class MainActivity : FlutterActivity() {
             }
 
         // Screenshot channel
-        MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL_SCREENSHOT)
+        MethodChannel(flutterEngine!!.dartExecutor.binaryMessenger, CHANNEL_SCREENSHOT)
             .setMethodCallHandler { call, result ->
                 when (call.method) {
                     "startScreenCapture" -> {
