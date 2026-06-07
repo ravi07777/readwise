@@ -13,6 +13,12 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
+subprojects {
+    plugins.withId("com.android.library") {
+        android.namespace = "com.${project.name}"
+    }
+}
+
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
