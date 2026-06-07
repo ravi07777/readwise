@@ -25,10 +25,26 @@ void main() async {
     systemNavigationBarIconBrightness: Brightness.dark,
   ));
 
-  await SecureStorageService.instance.initialize();
-  await DatabaseService.instance.initialize();
-  await NotificationService.instance.initialize();
-  await PlatformChannelService.instance.initialize();
+  try {
+    await SecureStorageService.instance.initialize();
+  } catch (e) {
+    debugPrint('SecureStorage init error: $e');
+  }
+  try {
+    await DatabaseService.instance.initialize();
+  } catch (e) {
+    debugPrint('Database init error: $e');
+  }
+  try {
+    await NotificationService.instance.initialize();
+  } catch (e) {
+    debugPrint('Notification init error: $e');
+  }
+  try {
+    await PlatformChannelService.instance.initialize();
+  } catch (e) {
+    debugPrint('PlatformChannel init error: $e');
+  }
 
   runApp(
     const ProviderScope(
