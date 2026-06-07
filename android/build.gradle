@@ -8,14 +8,23 @@ allprojects {
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
     project.evaluationDependsOn(':app')
-}
 
-subprojects {
     plugins.withId("com.android.library") {
-        android.namespace = "com.${project.name}"
+        def manifestFile = layout.projectDirectory.file("src/main/AndroidManifest.xml")
+        if (manifestFile.asFile.exists()) {
+            def content = manifestFile.asFile.text
+            def matcher = content =~ /package="([^"]+)"/
+            if (matcher.find()) {
+                android.namespace = matcher.group(1)
+            }
+            def cleaned = content.replaceAll(/\s+package="[^"]+"/, '')
+            def fixedDir = new File(buildDir, "intermediates/fixedManifest")
+            def fixedFile = new File(fixedDir, "AndroidManifest.xml")
+            fixedDir.mkdirs()
+            fixedFile.text = cleaned
+            android.sourceSets.main.manifest.srcFile = fixedFile
+        }
     }
 }
 
